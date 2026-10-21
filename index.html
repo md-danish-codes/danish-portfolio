@@ -328,9 +328,10 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <p><strong style="color:var(--text)">Issued by:</strong> Central Board of Secondary Education (CBSE)</p>
       <p><strong style="color:var(--text)">Dated:</strong> 3 August 2021 · Delhi</p>
       <p><strong style="color:var(--text)">Result:</strong> PASS</p>
-      <div style="margin-top:16px">
+      <div style="margin-top:16px" id="staticCertView" hidden>
         <a class="btn primary" href="cbse-class10-certificate-2021.pdf" target="_blank" rel="noopener noreferrer" aria-label="View Certificate: CBSE Secondary School Examination 2021 Marks Statement cum Certificate (opens PDF in a new tab)">View Certificate ↗</a>
       </div>
+      <p style="color:var(--muted);font-size:.88rem;margin-top:14px">🔒 Asli document private hai — visitors sirf certificate ki details dekh sakte hain, download nahi kar sakte.</p>
     </article>
   </div>
   <div id="dynCerts" class="grid g2" style="margin-top:18px"></div>
@@ -660,7 +661,7 @@ const CONFIG = {
   ],
   projects: [
     {name:"StudySathi", desc:"All-in-one self-study website: focus timers, timetable, calendars, calculator, maps, a Universe section and a built-in AI study companion.", cat:"Web", tech:["HTML","CSS","JavaScript","Gemini AI"], status:"Completed", live:"https://md-danish-codes.github.io/studysathi/", repo:"https://github.com/md-danish-codes/studysathi"},
-    {name:"Lateral Gang", desc:"Private memories website for a six-friend college group: photo/video albums, member tag folders, public uploads, emoji reactions and an admin trash/restore flow.", cat:"Web", tech:["HTML","CSS","JavaScript","Supabase","Cloudinary"], status:"Completed", live:"https://md-danish-codes.github.io/lateral-gang/", repo:"https://github.com/md-danish-codes/lateral-gang"},
+    {name:"Lateral Gang", desc:"Private memories website for a six-friend college group: photo/video albums, member tag folders, public uploads, emoji reactions and an admin trash/restore flow.", cat:"Web", tech:["HTML","CSS","JavaScript","Supabase","Cloudinary"], status:"Completed", live:"https://md-danish-codes.github.io/lateral-gang/", repo:""},
     {name:"ChatSphere Pro", desc:"Full-stack messaging app: realtime DMs and groups, ticks, typing/presence, reactions, voice notes, disappearing messages and WebRTC call signaling. Built and smoke-tested; server deployment pending.", cat:"Full-stack", tech:["Node.js","Express","Socket.IO","SQLite"], status:"In progress", live:"", repo:""},
     {name:"JARVIS — Laptop Voice Assistant", desc:"Windows voice assistant for an ASUS TUF laptop: wake commands, app launching, Hindi/English voice responses using speech recognition and edge-tts.", cat:"Desktop", tech:["Python"], status:"Completed", live:"", repo:""},
     {name:"JARVIS — Android App", desc:"Kotlin voice-assistant app: Hindi speech input/output, alarms by voice, WhatsApp by contact name, torch, battery, weather and news headlines, with a wake-word sleep/wake flow.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
@@ -1032,9 +1033,9 @@ async function loadCerts(){
       <h3 style="margin:12px 0 6px">${esc(c.title)}</h3>
       <p><strong style="color:var(--text)">Issued by:</strong> ${esc(c.issuer)}</p>
       ${c.cert_date?`<p><strong style="color:var(--text)">Dated:</strong> ${esc(c.cert_date)}</p>`:""}
-      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn primary" href="${esc(c.file_url)}" target="_blank" rel="noopener noreferrer">View Certificate ↗</a>
-        ${certAdminMode()?`<button class="btn danger" data-certdel="${c.id}" data-path="${esc(c.file_path)}">🗑 Delete</button>`:""}
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        ${certAdminMode()?`<a class="btn primary" href="${esc(c.file_url)}" target="_blank" rel="noopener noreferrer">View Certificate ↗</a>
+        <button class="btn danger" data-certdel="${c.id}" data-path="${esc(c.file_path)}">🗑 Delete</button>`:`<span style="color:var(--muted);font-size:.88rem">🔒 Document private hai — sirf admin dekh sakta hai</span>`}
       </div></article>`).join("");
   }catch(e){ note.textContent="Uploaded certificates abhi load nahi ho rahe (setup pending ho sakta hai). Static certificate upar dikh raha hai."; grid.innerHTML=""; }
 }
@@ -1207,12 +1208,12 @@ document.getElementById("mgrDelPhoto").addEventListener("click",async()=>{
 function applyAdminVisibility(){
   const on=certAdminMode();
   document.getElementById("adminPanel").hidden=!on;
-  for(const id of ["photoUploadCard","resumeUploadCard","certUploadCard","adminBanner"]) document.getElementById(id).hidden=!on;
+  for(const id of ["photoUploadCard","resumeUploadCard","certUploadCard","adminBanner","staticCertView"]) document.getElementById(id).hidden=!on;
   document.getElementById("dashboard").hidden=!on;
   document.getElementById("navDash").hidden=!on;
   if(on){ const sel=document.getElementById("msSkill"); if(sel&&!sel.options.length){ sel.innerHTML=CONFIG.skills.map(s=>`<option>${esc(s.name)}</option>`).join(""); } renderMgrLists(); }
 }
-addEventListener("hashchange",applyAdminVisibility);
+addEventListener("hashchange",()=>{ applyAdminVisibility(); loadCerts(); });
 document.getElementById("copyLinkBtn").addEventListener("click",async()=>{
   const url="https://md-danish-codes.github.io/danish-portfolio/";
   try{ await navigator.clipboard.writeText(url); toast("Link copy ho gaya ✔"); }catch(_){ toast("Copy nahi hua — link: "+url); }
