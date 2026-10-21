@@ -149,14 +149,15 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <a href="#home">Home</a><a href="#about">About</a><a href="#education">Education</a>
       <a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#journey">Journey</a>
       <a href="#resume">Resume</a><a href="#certificates">Certificates</a>
-      <a href="#future">Future</a><a href="#dashboard">Dashboard</a><a href="#contact">Contact</a>
+      <a href="#future">Future</a><a href="#dashboard" id="navDash" hidden>Dashboard</a><a href="#contact">Contact</a>
     </nav>
     <button class="iconbtn" id="themeBtn" aria-label="Change theme">🌙 Theme: Auto</button>
-    <button class="iconbtn" id="soundBtn" aria-label="Toggle ambient click sound" aria-pressed="false">🔇 Sound: Off</button>
+    <button class="iconbtn" id="soundBtn" aria-label="Toggle ambient click sound" aria-pressed="true">🔊 Sound: On</button>
   </div>
 </header>
 
 <main>
+<div id="adminBanner" hidden style="background:linear-gradient(90deg,#b91c1c,#7c3aed);color:#fff;text-align:center;padding:12px 16px;font-weight:700;position:relative;z-index:3">🛠 ADMIN MODE — ye tumhara private panel hai, is link ko kisi ko mat bhejna · <a href="./" style="color:#fde68a;text-decoration:underline">Visitor view dekho →</a></div>
 <!-- HERO -->
 <section id="home" class="hero">
   <div class="avatar" id="heroAvatar" aria-hidden="true">MD</div>
@@ -189,7 +190,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <div class="card reveal"><h3>🎯 Build useful things</h3><p>Projects should solve a real problem for real people, even a small one.</p></div>
     <div class="card reveal"><h3>🤝 Be honest about progress</h3><p>Beginner means beginner. This portfolio shows real levels, not inflated claims.</p></div>
   </div>
-  <div class="card reveal" style="margin-top:18px">
+  <div class="card reveal" id="photoUploadCard" hidden style="margin-top:18px">
     <span class="tag">Owner Upload</span>
     <h3 style="margin:10px 0 6px">📷 Profile photo — yahi se badlo</h3>
     <p style="margin-bottom:12px">Apni asli photo select karo (square photo best rahegi). Upload hote hi upar wala circle avatar photo se badal jayega. Nayi photo purani ko apne aap replace kar degi.</p>
@@ -236,7 +237,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <div class="card reveal"><h3>♟️ Chess</h3><p>Plays chess — patience, planning and thinking a few moves ahead.</p></div>
     <div class="card reveal"><h3>🗣️ Languages</h3><p>Speaks <strong style="color:var(--text)">Hindi, English and Urdu</strong>, and can <strong style="color:var(--text)">read Arabic</strong>.</p></div>
     <div class="card reveal"><h3>💪 Fitness &amp; Sports</h3><p>Calisthenics, badminton and running — the discipline behind a consistent study routine.</p></div>
-    <div class="card reveal"><h3>🎨 Creative Side</h3><p>Photo editing and drawing — an eye for design that shows up in the interfaces I build.</p></div>
+    <div class="card reveal"><h3>🎨 Creative Side</h3><p>Photo editing and drawing — an eye for design that shows up in the interfaces I build. Also a lover of <strong style="color:var(--text)">shayari</strong> (Urdu-Hindi poetry).</p></div>
     <div class="card reveal"><h3>🌟 Personal Strengths</h3><p>Time management · Leadership · Active listening · Adaptability · Calm under pressure · Learns from mistakes · Motivates others.</p></div>
   </div>
 </section>
@@ -304,7 +305,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <p class="eyebrow">Resume</p>
   <h2>Resume</h2>
   <div id="resumeBox"></div>
-  <div class="card reveal" style="margin-top:18px">
+  <div class="card reveal" id="resumeUploadCard" hidden style="margin-top:18px">
     <span class="tag">Owner Upload</span>
     <h3 style="margin:10px 0 6px">📤 Resume upload — right here</h3>
     <p style="margin-bottom:12px">Resume PDF select karke Upload dabao — upar "View Resume" button apne aap aa jayega. Dobara upload karne se purana resume replace ho jayega.</p>
@@ -335,7 +336,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <div id="dynCerts" class="grid g2" style="margin-top:18px"></div>
   <p id="dynCertsNote" style="color:var(--muted);margin-top:12px;font-size:.9rem">Loading uploaded certificates…</p>
 
-  <div class="card reveal" style="margin-top:26px">
+  <div class="card reveal" id="certUploadCard" hidden style="margin-top:26px">
     <span class="tag">Owner Upload</span>
     <h3 style="margin:10px 0 6px">📤 Upload a Certificate — right here</h3>
     <p style="margin-bottom:14px">PDF ya photo select karo, details bharo, Upload dabao — certificate isi page pe turant dikh jayega. File Supabase storage me jaati hai (max 10 MB).</p>
@@ -371,7 +372,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 </section>
 
 <!-- DASHBOARD -->
-<section id="dashboard">
+<section id="dashboard" hidden>
   <p class="eyebrow">Personal Dashboard</p>
   <h2>My study &amp; productivity dashboard</h2>
   <div class="notice" role="note"><strong>⚠️ Local-only prototype:</strong> Secure server authentication (Supabase Auth) is <strong>not configured yet</strong>, so this dashboard stores data <strong>only in this browser on this device</strong> (localStorage). It is not synced, not backed up to a server, and anyone using this browser can open it. <strong>Do not store passwords or sensitive personal information here.</strong> Backend phase will be completed when Supabase is connected with your approval.</div>
@@ -392,6 +393,17 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <div class="card"><p>🔥 Current streak</p><div class="stat" id="streakNow">0 days</div><p id="streakBest">Best: 0 days · Min study/day: <span id="minRuleLbl">25</span> min</p></div>
       <div class="card"><p>⏱️ Total study time</p><div class="stat" id="totalStudy">0h 0m</div><p id="weekStudy">This week: 0h 0m</p></div>
       <div class="card"><p>✅ Tasks completed</p><div class="stat" id="doneCount">0</div><p id="overdueCount">Overdue: 0</p></div>
+    </div>
+    <div class="card" style="margin-top:18px;text-align:center">
+      <p style="color:var(--muted);font-weight:700;letter-spacing:.08em">⏱️ STUDY TIMER — TIMER PE CLICK KARO, YAHI START HO JAYEGA</p>
+      <div class="timerface" id="timerFaceO" role="button" tabindex="0" title="Click: Start / Pause" aria-label="Study timer. Click to start or pause." style="cursor:pointer">00:00:00</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+        <button class="btn primary" id="oStart">▶ Start</button>
+        <button class="btn" id="oPause" disabled>⏸ Pause</button>
+        <button class="btn" id="oFinish" disabled>✔ Finish &amp; Save</button>
+        <button class="btn danger" id="oCancel" disabled>✖ Cancel</button>
+      </div>
+      <p style="color:var(--muted);font-size:.88rem;margin-top:10px">Timer pe click = Start / Pause. Subject aur pura control Study Timer tab me hai — dono jagah ka timer ek hi hai.</p>
     </div>
     <h3 style="margin:26px 0 10px">📌 Today's tasks</h3>
     <div id="todayTasks" class="grid"></div>
@@ -680,8 +692,8 @@ document.getElementById("themeBtn").addEventListener("click",()=>{
   themeMode = themeMode==="auto"?"dark":themeMode==="dark"?"light":"auto";
   applyTheme(themeMode); toast("Theme: "+themeMode);
 });
-/* =================== SOUND (off by default) =================== */
-let soundOn=false, audioCtx=null;
+/* =================== SOUND (ON by default — Danish's choice, 2026-10-21) =================== */
+let soundOn=true, audioCtx=null;
 document.getElementById("soundBtn").addEventListener("click",e=>{
   soundOn=!soundOn; e.currentTarget.textContent=soundOn?"🔊 Sound: On":"🔇 Sound: Off"; e.currentTarget.setAttribute("aria-pressed",soundOn);
   if(soundOn) blip();
@@ -917,16 +929,27 @@ document.getElementById("sscList").addEventListener("click",async e=>{
 let timer={running:false,paused:false,accum:0,startedAt:0,int:null};
 try{ const saved=JSON.parse(localStorage.getItem("dp_timer")); if(saved&&saved.active){ timer={running:true,paused:saved.paused,accum:saved.accum||0,startedAt:saved.startedAt||Date.now(),int:null}; document.getElementById("timerSubject").value=saved.subject||""; toast("⏱️ A previous study session was recovered."); } }catch(_){}
 function timerElapsed(){ return timer.accum+(timer.running&&!timer.paused?Date.now()-timer.startedAt:0); }
-function drawTimer(){ const s=Math.floor(timerElapsed()/1000); document.getElementById("timerFace").textContent=String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function drawTimer(){ const s=Math.floor(timerElapsed()/1000); const txt=String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); document.getElementById("timerFace").textContent=txt; const o=document.getElementById("timerFaceO"); if(o) o.textContent=txt; }
 function persistTimer(){ localStorage.setItem("dp_timer",JSON.stringify({active:timer.running,paused:timer.paused,accum:timer.accum,startedAt:timer.startedAt,subject:document.getElementById("timerSubject").value})); }
-function timerUI(){ document.getElementById("tStart").disabled=timer.running; document.getElementById("tPause").disabled=!timer.running; document.getElementById("tFinish").disabled=!timer.running; document.getElementById("tCancel").disabled=!timer.running; document.getElementById("tPause").textContent=timer.paused?"▶ Resume":"⏸ Pause"; }
+function timerUI(){ for(const p of ["t","o"]){ const st=document.getElementById(p+"Start"), pa=document.getElementById(p+"Pause"), fi=document.getElementById(p+"Finish"), ca=document.getElementById(p+"Cancel"); if(!st) continue; st.disabled=timer.running; pa.disabled=!timer.running; fi.disabled=!timer.running; ca.disabled=!timer.running; pa.textContent=timer.paused?"▶ Resume":"⏸ Pause"; } }
 function startTick(){ clearInterval(timer.int); timer.int=setInterval(drawTimer,500); drawTimer(); }
-document.getElementById("tStart").addEventListener("click",()=>{ timer={running:true,paused:false,accum:0,startedAt:Date.now(),int:null}; startTick(); persistTimer(); timerUI(); });
-document.getElementById("tPause").addEventListener("click",()=>{ if(!timer.running) return; if(!timer.paused){ timer.accum+=Date.now()-timer.startedAt; timer.paused=true; } else { timer.startedAt=Date.now(); timer.paused=false; } persistTimer(); timerUI(); drawTimer(); });
-document.getElementById("tFinish").addEventListener("click",()=>{ const ms=timerElapsed(); if(ms<10000){ toast("Session too short (under 10 seconds) — not saved, to avoid accidental records."); return; }
+function startTimer(){ if(timer.running) return; timer={running:true,paused:false,accum:0,startedAt:Date.now(),int:null}; startTick(); persistTimer(); timerUI(); }
+function togglePause(){ if(!timer.running) return; if(!timer.paused){ timer.accum+=Date.now()-timer.startedAt; timer.paused=true; } else { timer.startedAt=Date.now(); timer.paused=false; } persistTimer(); timerUI(); drawTimer(); }
+function finishTimer(){ const ms=timerElapsed(); if(!timer.running) return; if(ms<10000){ toast("Session too short (under 10 seconds) — not saved, to avoid accidental records."); return; }
   DB.sessions.push({id:uid(),subject:document.getElementById("timerSubject").value.trim()||"General study",minutes:Math.round(ms/6000)/10,date:todayStr(),endedAt:new Date().toISOString()});
-  timer={running:false,paused:false,accum:0,startedAt:0,int:null}; localStorage.removeItem("dp_timer"); saveDB(); drawTimer(); timerUI(); renderSessions(); renderOverview(); toast("Session saved ✔ "+fmtDur(ms/60000)); });
-document.getElementById("tCancel").addEventListener("click",async()=>{ if(!(await confirmDlg("Cancel this session without saving?"))) return; timer={running:false,paused:false,accum:0,startedAt:0,int:null}; localStorage.removeItem("dp_timer"); drawTimer(); timerUI(); });
+  timer={running:false,paused:false,accum:0,startedAt:0,int:null}; localStorage.removeItem("dp_timer"); saveDB(); drawTimer(); timerUI(); renderSessions(); renderOverview(); toast("Session saved ✔ "+fmtDur(ms/60000)); }
+async function cancelTimer(){ if(!timer.running) return; if(!(await confirmDlg("Cancel this session without saving?"))) return; timer={running:false,paused:false,accum:0,startedAt:0,int:null}; localStorage.removeItem("dp_timer"); drawTimer(); timerUI(); }
+for(const p of ["t","o"]){
+  document.getElementById(p+"Start").addEventListener("click",startTimer);
+  document.getElementById(p+"Pause").addEventListener("click",togglePause);
+  document.getElementById(p+"Finish").addEventListener("click",finishTimer);
+  document.getElementById(p+"Cancel").addEventListener("click",cancelTimer);
+}
+function faceClick(){ if(!timer.running) startTimer(); else togglePause(); }
+document.getElementById("timerFace").style.cursor="pointer";
+document.getElementById("timerFace").addEventListener("click",faceClick);
+const faceO=document.getElementById("timerFaceO");
+if(faceO){ faceO.addEventListener("click",faceClick); faceO.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); faceClick(); } }); faceO.style.cursor="pointer"; }
 document.getElementById("minStudy").value=DB.settings.minStudyMin||25;
 document.getElementById("minStudy").addEventListener("change",e=>{ const v=Math.max(1,+e.target.value||25); DB.settings.minStudyMin=v; saveDB(); renderOverview(); toast("Streak rule updated: "+v+" min/day"); });
 if(timer.running) startTick(); drawTimer(); timerUI();
@@ -1004,7 +1027,7 @@ async function loadCerts(){
     const r=await fetch(SB_URL+"/rest/v1/portfolio_certificates?select=*&order=created_at.desc",{headers:sbHeaders});
     if(!r.ok) throw new Error("table not ready");
     const rows=await r.json();
-    note.textContent=rows.length?"":"No uploaded certificates yet — use the upload form below to add the first one.";
+    note.textContent=rows.length?"":(certAdminMode()?"No uploaded certificates yet — use the upload form below to add the first one.":"More certificates will appear here soon.");
     grid.innerHTML=rows.map(c=>`<article class="card"><span class="tag green">Uploaded Certificate</span>
       <h3 style="margin:12px 0 6px">${esc(c.title)}</h3>
       <p><strong style="color:var(--text)">Issued by:</strong> ${esc(c.issuer)}</p>
@@ -1184,6 +1207,9 @@ document.getElementById("mgrDelPhoto").addEventListener("click",async()=>{
 function applyAdminVisibility(){
   const on=certAdminMode();
   document.getElementById("adminPanel").hidden=!on;
+  for(const id of ["photoUploadCard","resumeUploadCard","certUploadCard","adminBanner"]) document.getElementById(id).hidden=!on;
+  document.getElementById("dashboard").hidden=!on;
+  document.getElementById("navDash").hidden=!on;
   if(on){ const sel=document.getElementById("msSkill"); if(sel&&!sel.options.length){ sel.innerHTML=CONFIG.skills.map(s=>`<option>${esc(s.name)}</option>`).join(""); } renderMgrLists(); }
 }
 addEventListener("hashchange",applyAdminVisibility);
