@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://md-danish-codes.github.io/danish-portfolio/sitemap.xml
