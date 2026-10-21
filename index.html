@@ -129,6 +129,9 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   .reveal{opacity:1;transform:none}
 }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Mohammad Danish","alternateName":"Danish","jobTitle":"Student Developer","description":"B.Tech Information Technology student at PUSSGRC, Punjab, India.","url":"https://md-danish-codes.github.io/danish-portfolio/","email":"mailto:mohddanish14012005@gmail.com","address":{"@type":"PostalAddress","addressRegion":"Punjab","addressCountry":"IN"},"sameAs":["https://github.com/md-danish-codes","https://www.linkedin.com/in/md-danish-42b031368"]}
+</script>
 </head>
 <body>
 <a class="skip" href="#home">Skip to content</a>
@@ -156,7 +159,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 <main>
 <!-- HERO -->
 <section id="home" class="hero">
-  <div class="avatar" aria-hidden="true">MD</div>
+  <div class="avatar" id="heroAvatar" aria-hidden="true">MD</div>
   <p class="eyebrow">Building my future, one project at a time</p>
   <h1>Hi, I'm <span class="grad">Danish.</span></h1>
   <p class="sub">Student Developer. Curious Mind. Future Builder.</p>
@@ -185,6 +188,16 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <div class="card reveal"><h3>📈 Improve consistently</h3><p>Small daily progress, honestly tracked, beats occasional big pushes.</p></div>
     <div class="card reveal"><h3>🎯 Build useful things</h3><p>Projects should solve a real problem for real people, even a small one.</p></div>
     <div class="card reveal"><h3>🤝 Be honest about progress</h3><p>Beginner means beginner. This portfolio shows real levels, not inflated claims.</p></div>
+  </div>
+  <div class="card reveal" style="margin-top:18px">
+    <span class="tag">Owner Upload</span>
+    <h3 style="margin:10px 0 6px">📷 Profile photo — yahi se badlo</h3>
+    <p style="margin-bottom:12px">Apni asli photo select karo (square photo best rahegi). Upload hote hi upar wala circle avatar photo se badal jayega. Nayi photo purani ko apne aap replace kar degi.</p>
+    <form id="photoForm" aria-label="Upload profile photo" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">
+      <div style="flex:1;min-width:220px"><label for="photoFile">Photo (JPG / PNG / WEBP, max 5 MB)</label><input type="file" id="photoFile" accept=".jpg,.jpeg,.png,.webp" required></div>
+      <button class="btn primary" type="submit" id="photoBtn">Upload Photo</button>
+    </form>
+    <p id="photoStatus" role="status" aria-live="polite" style="font-size:.92rem;margin-top:8px"></p>
   </div>
 </section>
 
@@ -231,6 +244,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <button data-pfilter="Prototype">Prototype</button>
   </div>
   <div class="grid g2" id="projectGrid"></div>
+  <div class="grid g2" id="dynProjects" style="margin-top:18px"></div>
 </section>
 
 <!-- JOURNEY -->
@@ -268,6 +282,16 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <p class="eyebrow">Resume</p>
   <h2>Resume</h2>
   <div id="resumeBox"></div>
+  <div class="card reveal" style="margin-top:18px">
+    <span class="tag">Owner Upload</span>
+    <h3 style="margin:10px 0 6px">📤 Resume upload — right here</h3>
+    <p style="margin-bottom:12px">Resume PDF select karke Upload dabao — upar "View Resume" button apne aap aa jayega. Dobara upload karne se purana resume replace ho jayega.</p>
+    <form id="resumeForm" aria-label="Upload resume" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">
+      <div style="flex:1;min-width:220px"><label for="resumeFile">Resume file (PDF, max 10 MB)</label><input type="file" id="resumeFile" accept=".pdf" required></div>
+      <button class="btn primary" type="submit" id="resumeBtn">Upload Resume</button>
+    </form>
+    <p id="resumeStatus" role="status" aria-live="polite" style="font-size:.92rem;margin-top:8px"></p>
+  </div>
 </section>
 
 <!-- CERTIFICATES -->
@@ -313,6 +337,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <p class="eyebrow">Future Projects</p>
   <h2>Ideas I want to build next</h2>
   <div class="grid g3" id="futureGrid"></div>
+  <div class="grid g3" id="dynFuture" style="margin-top:18px"></div>
 </section>
 
 <!-- PUBLIC PROGRESS -->
@@ -472,6 +497,68 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   </div>
 </section>
 
+<!-- ADMIN MANAGER (opens only with #admin in the link) -->
+<section id="adminPanel" hidden>
+  <p class="eyebrow">Owner Only · Site Manager</p>
+  <h2>Website yahi se manage karo</h2>
+  <p class="lead">Ye panel sirf tab dikhta hai jab link ke peeche <strong>#admin</strong> laga ho. Is link ko kisi ke saath share mat karna. Jo yahan badloge wo sab visitors ko dikhega.</p>
+
+  <div class="card" style="margin-bottom:18px">
+    <h3 style="margin-bottom:10px">➕ Naya Project jodo</h3>
+    <form id="mgrProjectForm">
+      <div class="row">
+        <div><label for="mpName">Project name *</label><input id="mpName" required maxlength="80"></div>
+        <div><label for="mpCat">Category</label><select id="mpCat"><option>Web</option><option>Android</option><option>Desktop</option><option>Full-stack</option><option>Prototype</option></select></div>
+        <div><label for="mpStatus">Status</label><select id="mpStatus"><option>Completed</option><option>In progress</option><option>Planned</option></select></div>
+      </div>
+      <div><label for="mpDesc">Short description *</label><textarea id="mpDesc" required maxlength="300"></textarea></div>
+      <div class="row">
+        <div><label for="mpTech">Tech (comma se alag, jaise: Python, SQL)</label><input id="mpTech" maxlength="120"></div>
+        <div><label for="mpLive">Live link (optional)</label><input id="mpLive" type="url" placeholder="https://…"></div>
+        <div><label for="mpRepo">Repository link (optional)</label><input id="mpRepo" type="url" placeholder="https://github.com/…"></div>
+      </div>
+      <button class="btn primary" type="submit">Add Project</button>
+    </form>
+    <div id="mgrProjectList" style="margin-top:14px"></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="margin-bottom:10px">📈 Skill level badlo</h3>
+      <form id="mgrSkillForm">
+        <div class="row">
+          <div><label for="msSkill">Skill</label><select id="msSkill"></select></div>
+          <div><label for="msLevel">New level</label><select id="msLevel"><option>Beginner</option><option>Currently learning</option><option>Intermediate</option><option>Comfortable</option><option>Exploring</option><option>Developing</option><option>Basic</option></select></div>
+        </div>
+        <button class="btn primary" type="submit">Update Level</button>
+      </form>
+      <p id="mgrSkillNote" style="font-size:.9rem;margin-top:8px"></p>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">💡 Future idea jodo</h3>
+      <form id="mgrIdeaForm">
+        <div class="row">
+          <div><label for="miName">Idea name *</label><input id="miName" required maxlength="80"></div>
+          <div><label for="miCat">Category</label><input id="miCat" maxlength="60" placeholder="e.g. AI-powered tool"></div>
+        </div>
+        <div><label for="miNote">Ek line me idea</label><input id="miNote" maxlength="160"></div>
+        <button class="btn primary" type="submit">Add Idea</button>
+      </form>
+      <div id="mgrIdeaList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3 style="margin-bottom:10px">🗑️ Uploads saaf karo</h3>
+    <p style="margin-bottom:12px">Galat resume ya photo chala gaya ho to yahan se hata do. (Certificates ka delete unke card pe hi aata hai jab #admin mode on ho.)</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn danger" id="mgrDelResume" type="button">Delete Resume</button>
+      <button class="btn danger" id="mgrDelPhoto" type="button">Delete Profile Photo</button>
+    </div>
+    <p id="mgrCleanNote" style="font-size:.9rem;margin-top:8px"></p>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <p class="eyebrow">Contact</p>
@@ -481,6 +568,22 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <a class="card reveal" href="mailto:mohddanish14012005@gmail.com" style="text-decoration:none;color:var(--text)"><h3>✉️ Email</h3><p>mohddanish14012005@gmail.com</p></a>
     <a class="card reveal" href="https://github.com/md-danish-codes" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--text)"><h3>💻 GitHub</h3><p>github.com/md-danish-codes ↗</p></a>
     <a class="card reveal" href="https://www.linkedin.com/in/md-danish-42b031368" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--text)"><h3>💼 LinkedIn</h3><p>Connect on LinkedIn ↗</p></a>
+  </div>
+  <div class="card reveal" style="margin-top:18px">
+    <h3 style="margin-bottom:8px">🔗 Share my portfolio</h3>
+    <p style="margin-bottom:12px">Link copy karke ya QR scan karke koi bhi mera portfolio khol sakta hai:</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&margin=8&data=https%3A%2F%2Fmd-danish-codes.github.io%2Fdanish-portfolio%2F" alt="QR code for Danish's portfolio website" width="130" height="130" loading="lazy" style="border-radius:12px;background:#fff">
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <strong style="font-size:.95rem">md-danish-codes.github.io/danish-portfolio/</strong>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn small primary" id="copyLinkBtn" type="button">📋 Copy Link</button>
+          <a class="btn small" href="https://wa.me/?text=Check%20my%20portfolio%3A%20https%3A%2F%2Fmd-danish-codes.github.io%2Fdanish-portfolio%2F" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <a class="btn small" href="https://t.me/share/url?url=https%3A%2F%2Fmd-danish-codes.github.io%2Fdanish-portfolio%2F&text=Check%20my%20portfolio" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <a class="btn small" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fmd-danish-codes.github.io%2Fdanish-portfolio%2F" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </div>
   </div>
   <p style="color:var(--muted);margin-top:16px;font-size:.92rem">No contact form is shown because there is no email-delivery backend connected yet — a form that pretends to send would be dishonest. Email above works today.</p>
 </section>
@@ -930,6 +1033,144 @@ document.getElementById("certForm").addEventListener("submit",e=>{
   xhr.send(file);
 });
 loadCerts();
+/* =================== RESUME + PROFILE PHOTO: DIRECT UPLOAD (same bucket, fixed paths) =================== */
+const RESUME_PATH="resume/resume.pdf", PHOTO_PATH="profile/profile-photo";
+const sbPublic=path=>SB_URL+"/storage/v1/object/public/portfolio-files/"+path;
+function sbUpload(path,file,upsert,statusEl,done){
+  const xhr=new XMLHttpRequest();
+  xhr.open("POST",SB_URL+"/storage/v1/object/portfolio-files/"+path.split("/").map(encodeURIComponent).join("/"));
+  xhr.setRequestHeader("apikey",SB_KEY); xhr.setRequestHeader("Authorization","Bearer "+SB_KEY);
+  xhr.setRequestHeader("Content-Type",file.type||"application/octet-stream"); xhr.setRequestHeader("x-upsert",upsert?"true":"false");
+  xhr.onload=()=>{ if(xhr.status>=200&&xhr.status<300){ done(true); } else { statusEl.textContent="❌ Upload fail hua ("+xhr.status+"). Dobara try karo."; done(false); } };
+  xhr.onerror=()=>{ statusEl.textContent="❌ Network error — internet check karke dobara try karo."; done(false); };
+  xhr.send(file);
+}
+async function sbExists(path){ try{ const r=await fetch(sbPublic(path),{method:"HEAD"}); return r.ok; }catch(_){ return false; } }
+async function renderResume(){
+  if(await sbExists(RESUME_PATH)){
+    document.getElementById("resumeBox").innerHTML=`<div class="card"><span class="tag green">Resume Available</span>
+      <p style="margin:12px 0">Mera resume yahan dekha ja sakta hai. Note: jo document publicly view hota hai, use viewer save bhi kar sakta hai — pura download rokna technically possible nahi hota.</p>
+      <a class="btn primary" href="${sbPublic(RESUME_PATH)}?v=${Date.now()}" target="_blank" rel="noopener noreferrer">View Resume ↗</a></div>`;
+  }
+}
+document.getElementById("resumeForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const file=document.getElementById("resumeFile").files[0], status=document.getElementById("resumeStatus"), btn=document.getElementById("resumeBtn");
+  if(!file) return;
+  if(file.size>10*1024*1024){ status.textContent="❌ File 10 MB se badi hai."; return; }
+  btn.disabled=true; status.textContent="Resume upload ho raha hai…";
+  sbUpload(RESUME_PATH,file,true,status,ok=>{ btn.disabled=false;
+    if(ok){ status.textContent="✔ Ho gaya! Resume live hai — upar View Resume button aa gaya hoga."; toast("Resume uploaded ✔"); e.target.reset(); renderResume(); }
+  });
+});
+async function renderPhoto(){
+  for(const ext of ["jpg","png","webp"]){
+    if(await sbExists(PHOTO_PATH+"."+ext)){
+      const av=document.getElementById("heroAvatar");
+      av.innerHTML=`<img src="${sbPublic(PHOTO_PATH+"."+ext)}?v=${Date.now()}" alt="Photo of Mohammad Danish" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+      av.style.background="none"; av.setAttribute("aria-hidden","false");
+      return;
+    }
+  }
+}
+document.getElementById("photoForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const file=document.getElementById("photoFile").files[0], status=document.getElementById("photoStatus"), btn=document.getElementById("photoBtn");
+  if(!file) return;
+  if(file.size>5*1024*1024){ status.textContent="❌ Photo 5 MB se badi hai — chhoti photo try karo."; return; }
+  const ext=((file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg");
+  btn.disabled=true; status.textContent="Photo upload ho rahi hai…";
+  // remove other-extension variants so the newest photo always wins
+  for(const old of ["jpg","png","webp"]){ if(old!==ext) await fetch(SB_URL+"/storage/v1/object/portfolio-files/"+PHOTO_PATH+"."+old,{method:"DELETE",headers:sbHeaders}).catch(()=>{}); }
+  sbUpload(PHOTO_PATH+"."+ext,file,true,status,ok=>{ btn.disabled=false;
+    if(ok){ status.textContent="✔ Ho gaya! Upar avatar me tumhari photo aa gayi hai (page refresh karke dekho)."; toast("Profile photo updated ✔"); e.target.reset(); renderPhoto(); }
+  });
+});
+renderResume(); renderPhoto();
+/* =================== SITE MANAGER: dynamic projects / ideas / skill levels (bucket JSON) =================== */
+const DATA_PATH="data/portfolio-data.json";
+const emptyData=()=>({projects:[],futureIdeas:[],skillLevels:{}});
+let SITE_DATA=emptyData();
+async function loadData(){
+  try{ const r=await fetch(sbPublic(DATA_PATH)+"?t="+Date.now()); if(r.ok){ const d=await r.json(); if(d&&Array.isArray(d.projects)) SITE_DATA={...emptyData(),...d}; } }catch(_){}
+  applyDynamic();
+}
+async function saveData(){
+  const blob=new Blob([JSON.stringify(SITE_DATA,null,2)],{type:"application/json"});
+  const r=await fetch(SB_URL+"/storage/v1/object/portfolio-files/"+DATA_PATH,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json","x-upsert":"true"},body:blob});
+  if(!r.ok) throw new Error("save failed "+r.status);
+}
+function projectCardHTML(p,adminIdx){
+  return `<article class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${esc(p.name)}</h3><span class="tag ${statusTag(p.status)}">${esc(p.status)}</span></div>
+  <p style="margin:10px 0">${esc(p.desc)}</p>
+  <div class="chips" style="margin:0 0 14px">${(p.tech||[]).map(t=>`<span class="chip">${esc(t)}</span>`).join("")}<span class="chip">${esc(p.cat)}</span></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">${p.live?`<a class="btn primary small" href="${esc(p.live)}" target="_blank" rel="noopener noreferrer">Live Site ↗</a>`:""}${p.repo?`<a class="btn small" href="${esc(p.repo)}" target="_blank" rel="noopener noreferrer">Repository ↗</a>`:""}
+  ${adminIdx!==undefined?`<button class="btn small danger" data-dynprojdel="${adminIdx}">🗑 Delete</button>`:""}</div></article>`;
+}
+function applyDynamic(){
+  // skill level overrides
+  let changed=false;
+  for(const s of CONFIG.skills){ const lv=SITE_DATA.skillLevels[s.name]; if(lv&&lv!==s.level){ s.level=lv; changed=true; } }
+  if(changed){ document.querySelectorAll("[data-sfilter]").forEach(x=>x.classList.toggle("on",x.dataset.sfilter==="all")); renderSkills("all"); }
+  // dynamic projects
+  document.getElementById("dynProjects").innerHTML=SITE_DATA.projects.map(p=>projectCardHTML(p)).join("");
+  // dynamic future ideas
+  document.getElementById("dynFuture").innerHTML=SITE_DATA.futureIdeas.map(f=>`<div class="card"><span class="tag violet">Planned · Idea</span><h3 style="margin:10px 0 6px">${esc(f.name)}</h3><p><strong style="color:var(--text)">${esc(f.cat||"Idea")}</strong> — ${esc(f.note||"")}</p></div>`).join("");
+  renderMgrLists();
+}
+function renderMgrLists(){
+  const pl=document.getElementById("mgrProjectList"), il=document.getElementById("mgrIdeaList");
+  if(pl) pl.innerHTML=SITE_DATA.projects.length?SITE_DATA.projects.map((p,i)=>`<p style="padding:6px 0;border-bottom:1px solid var(--line)">${esc(p.name)} <button class="btn small danger" data-dynprojdel="${i}" style="float:right">Delete</button></p>`).join(""):"<p style='color:var(--muted)'>Abhi website se koi project add nahi hua.</p>";
+  if(il) il.innerHTML=SITE_DATA.futureIdeas.length?SITE_DATA.futureIdeas.map((f,i)=>`<p style="padding:6px 0;border-bottom:1px solid var(--line)">${esc(f.name)} <button class="btn small danger" data-dynideadel="${i}" style="float:right">Delete</button></p>`).join(""):"<p style='color:var(--muted)'>Abhi website se koi idea add nahi hua.</p>";
+}
+document.addEventListener("click",async e=>{
+  const pd=e.target.closest("[data-dynprojdel]"), id=e.target.closest("[data-dynideadel]");
+  if(pd){ if(!(await confirmDlg("Delete this project from the website?"))) return; SITE_DATA.projects.splice(+pd.dataset.dynprojdel,1); try{ await saveData(); applyDynamic(); toast("Project deleted ✔"); }catch(_){ toast("⚠️ Save fail — dobara try karo."); } }
+  if(id){ if(!(await confirmDlg("Delete this idea?"))) return; SITE_DATA.futureIdeas.splice(+id.dataset.dynideadel,1); try{ await saveData(); applyDynamic(); toast("Idea deleted ✔"); }catch(_){ toast("⚠️ Save fail — dobara try karo."); } }
+});
+document.getElementById("mgrProjectForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const p={name:document.getElementById("mpName").value.trim(),desc:document.getElementById("mpDesc").value.trim(),cat:document.getElementById("mpCat").value,status:document.getElementById("mpStatus").value,tech:document.getElementById("mpTech").value.split(",").map(s=>s.trim()).filter(Boolean),live:document.getElementById("mpLive").value.trim(),repo:document.getElementById("mpRepo").value.trim()};
+  if(!p.name||!p.desc) return;
+  SITE_DATA.projects.unshift(p);
+  try{ await saveData(); applyDynamic(); e.target.reset(); toast("Project live ho gaya ✔ Projects section me dekho."); }catch(_){ SITE_DATA.projects.shift(); toast("⚠️ Save fail — internet check karke dobara try karo."); }
+});
+document.getElementById("mgrIdeaForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const f={name:document.getElementById("miName").value.trim(),cat:document.getElementById("miCat").value.trim(),note:document.getElementById("miNote").value.trim()};
+  if(!f.name) return;
+  SITE_DATA.futureIdeas.unshift(f);
+  try{ await saveData(); applyDynamic(); e.target.reset(); toast("Idea add ho gaya ✔"); }catch(_){ SITE_DATA.futureIdeas.shift(); toast("⚠️ Save fail — dobara try karo."); }
+});
+document.getElementById("mgrSkillForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=document.getElementById("msSkill").value, lv=document.getElementById("msLevel").value;
+  SITE_DATA.skillLevels[name]=lv;
+  try{ await saveData(); applyDynamic(); document.getElementById("mgrSkillNote").textContent="✔ "+name+" ka level ab "+lv+" hai — Skills section me live hai."; toast("Skill level updated ✔"); }catch(_){ toast("⚠️ Save fail — dobara try karo."); }
+});
+document.getElementById("mgrDelResume").addEventListener("click",async()=>{
+  if(!(await confirmDlg("Resume delete karun? Site pe View Resume button hat jayega."))) return;
+  const r=await fetch(SB_URL+"/storage/v1/object/portfolio-files/"+RESUME_PATH,{method:"DELETE",headers:sbHeaders});
+  document.getElementById("mgrCleanNote").textContent=r.ok?"✔ Resume delete ho gaya. Page refresh karne pe empty state dikhega.":"⚠️ Delete fail — shayad resume upload hi nahi hai.";
+});
+document.getElementById("mgrDelPhoto").addEventListener("click",async()=>{
+  if(!(await confirmDlg("Profile photo delete karun? Avatar wapas 'MD' initials ho jayega."))) return;
+  let any=false;
+  for(const ext of ["jpg","png","webp"]){ const r=await fetch(SB_URL+"/storage/v1/object/portfolio-files/"+PHOTO_PATH+"."+ext,{method:"DELETE",headers:sbHeaders}); if(r.ok) any=true; }
+  document.getElementById("mgrCleanNote").textContent=any?"✔ Photo delete ho gayi. Page refresh karke dekho.":"⚠️ Photo mili nahi — shayad upload hi nahi hai.";
+});
+function applyAdminVisibility(){
+  const on=certAdminMode();
+  document.getElementById("adminPanel").hidden=!on;
+  if(on){ const sel=document.getElementById("msSkill"); if(sel&&!sel.options.length){ sel.innerHTML=CONFIG.skills.map(s=>`<option>${esc(s.name)}</option>`).join(""); } renderMgrLists(); }
+}
+addEventListener("hashchange",applyAdminVisibility);
+document.getElementById("copyLinkBtn").addEventListener("click",async()=>{
+  const url="https://md-danish-codes.github.io/danish-portfolio/";
+  try{ await navigator.clipboard.writeText(url); toast("Link copy ho gaya ✔"); }catch(_){ toast("Copy nahi hua — link: "+url); }
+});
+applyAdminVisibility();
+loadData();
 </script>
 </body>
 </html>
