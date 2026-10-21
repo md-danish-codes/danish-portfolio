@@ -286,7 +286,26 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       </div>
     </article>
   </div>
-  <p style="color:var(--muted);margin-top:14px;font-size:.9rem">More certificates will appear here as I complete and verify them.</p>
+  <div id="dynCerts" class="grid g2" style="margin-top:18px"></div>
+  <p id="dynCertsNote" style="color:var(--muted);margin-top:12px;font-size:.9rem">Loading uploaded certificates…</p>
+
+  <div class="card reveal" style="margin-top:26px">
+    <span class="tag">Owner Upload</span>
+    <h3 style="margin:10px 0 6px">📤 Upload a Certificate — right here</h3>
+    <p style="margin-bottom:14px">PDF ya photo select karo, details bharo, Upload dabao — certificate isi page pe turant dikh jayega. File Supabase storage me jaati hai (max 10 MB).</p>
+    <form id="certForm" aria-label="Upload certificate">
+      <div class="row">
+        <div><label for="certTitle">Certificate title *</label><input id="certTitle" required maxlength="120" placeholder="e.g. Python Basics Certificate"></div>
+        <div><label for="certIssuer">Issued by *</label><input id="certIssuer" required maxlength="100" placeholder="e.g. Coursera / NPTEL / CBSE"></div>
+        <div><label for="certDate">Completion / issue date</label><input type="date" id="certDate"></div>
+      </div>
+      <div><label for="certFile">Certificate file (PDF, JPG, PNG) *</label><input type="file" id="certFile" accept=".pdf,.jpg,.jpeg,.png,.webp" required></div>
+      <div id="certProgressWrap" hidden style="background:var(--bg2);border-radius:99px;height:12px;overflow:hidden"><div id="certProgress" style="width:0%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s"></div></div>
+      <p id="certStatus" role="status" aria-live="polite" style="font-size:.92rem"></p>
+      <button class="btn primary" type="submit" id="certUploadBtn">Upload Certificate</button>
+    </form>
+  </div>
+  <p style="color:var(--muted);margin-top:14px;font-size:.9rem">More certificates will appear here as I complete and verify them. Uploaded certificates are stored in Supabase and shown above automatically.</p>
 </section>
 
 <!-- FUTURE -->
@@ -849,6 +868,68 @@ document.getElementById("importFile").addEventListener("change",e=>{
 document.getElementById("wipeBtn").addEventListener("click",async()=>{ if(await confirmDlg("Erase ALL local dashboard data in this browser? This cannot be undone.")){ DB=blankDB(); saveDB(); renderAll(); toast("All local data erased."); } });
 function renderAll(){ renderTasks(); renderGoals(); renderLearning(); renderSSC(); renderSessions(); renderOverview(); renderCalendar(); renderPublic(); }
 renderAll();
+/* =================== CERTIFICATES: DIRECT WEBSITE UPLOAD (Supabase) =================== */
+const SB_URL="https://voaxmnpkckdvkxigtpnb.supabase.co";
+const SB_KEY="sb_publishable_6_Gl5ApTlqOSNb7N2b9ifg_K-mw98yO";
+const sbHeaders={apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"};
+const certAdminMode=()=>location.hash==="#admin";
+async function loadCerts(){
+  const note=document.getElementById("dynCertsNote"), grid=document.getElementById("dynCerts");
+  try{
+    const r=await fetch(SB_URL+"/rest/v1/portfolio_certificates?select=*&order=created_at.desc",{headers:sbHeaders});
+    if(!r.ok) throw new Error("table not ready");
+    const rows=await r.json();
+    note.textContent=rows.length?"":"No uploaded certificates yet — use the upload form below to add the first one.";
+    grid.innerHTML=rows.map(c=>`<article class="card"><span class="tag green">Uploaded Certificate</span>
+      <h3 style="margin:12px 0 6px">${esc(c.title)}</h3>
+      <p><strong style="color:var(--text)">Issued by:</strong> ${esc(c.issuer)}</p>
+      ${c.cert_date?`<p><strong style="color:var(--text)">Dated:</strong> ${esc(c.cert_date)}</p>`:""}
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn primary" href="${esc(c.file_url)}" target="_blank" rel="noopener noreferrer">View Certificate ↗</a>
+        ${certAdminMode()?`<button class="btn danger" data-certdel="${c.id}" data-path="${esc(c.file_path)}">🗑 Delete</button>`:""}
+      </div></article>`).join("");
+  }catch(e){ note.textContent="Uploaded certificates abhi load nahi ho rahe (setup pending ho sakta hai). Static certificate upar dikh raha hai."; grid.innerHTML=""; }
+}
+document.getElementById("dynCerts").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-certdel]"); if(!b) return;
+  if(!(await confirmDlg("Delete this uploaded certificate permanently? File bhi storage se hat jayega."))) return;
+  const id=b.dataset.certdel, path=b.dataset.path;
+  await fetch(SB_URL+"/storage/v1/object/portfolio-files/"+encodeURIComponent(path),{method:"DELETE",headers:sbHeaders}).catch(()=>{});
+  const r=await fetch(SB_URL+"/rest/v1/portfolio_certificates?id=eq."+id,{method:"DELETE",headers:sbHeaders});
+  if(r.ok){ toast("Certificate deleted ✔"); loadCerts(); } else toast("⚠️ Delete failed — dobara try karo.");
+});
+addEventListener("hashchange",loadCerts);
+document.getElementById("certForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const title=document.getElementById("certTitle").value.trim(), issuer=document.getElementById("certIssuer").value.trim(),
+        date=document.getElementById("certDate").value, file=document.getElementById("certFile").files[0];
+  const status=document.getElementById("certStatus"), btn=document.getElementById("certUploadBtn");
+  if(!title||!issuer||!file){ status.textContent="Title, issuer aur file — teeno zaroori hain."; return; }
+  if(file.size>10*1024*1024){ status.textContent="❌ File 10 MB se badi hai. Chhoti file try karo."; return; }
+  const ext=(file.name.split(".").pop()||"pdf").toLowerCase().replace(/[^a-z0-9]/g,"");
+  const safeBase=file.name.replace(/\.[^.]+$/,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40)||"certificate";
+  const path=Date.now()+"-"+safeBase+"."+ext;
+  const publicUrl=SB_URL+"/storage/v1/object/public/portfolio-files/"+path;
+  btn.disabled=true; status.textContent="Upload ho raha hai…";
+  document.getElementById("certProgressWrap").hidden=false;
+  const xhr=new XMLHttpRequest();
+  xhr.open("POST",SB_URL+"/storage/v1/object/portfolio-files/"+encodeURIComponent(path));
+  xhr.setRequestHeader("apikey",SB_KEY); xhr.setRequestHeader("Authorization","Bearer "+SB_KEY);
+  xhr.setRequestHeader("Content-Type",file.type||"application/octet-stream"); xhr.setRequestHeader("x-upsert","false");
+  xhr.upload.onprogress=ev=>{ if(ev.lengthComputable) document.getElementById("certProgress").style.width=Math.round(ev.loaded/ev.total*100)+"%"; };
+  xhr.onload=async()=>{
+    if(xhr.status>=200&&xhr.status<300){
+      status.textContent="File upload ho gayi — details save ho rahe hain…";
+      const r=await fetch(SB_URL+"/rest/v1/portfolio_certificates",{method:"POST",headers:{...sbHeaders,Prefer:"return=minimal"},body:JSON.stringify({title,issuer,cert_date:date||null,file_url:publicUrl,file_path:path})});
+      if(r.ok){ status.textContent="✔ Ho gaya! Certificate neeche list me aa gaya hai."; toast("Certificate uploaded ✔"); e.target.reset(); document.getElementById("certProgress").style.width="0%"; document.getElementById("certProgressWrap").hidden=true; loadCerts(); }
+      else{ status.textContent="⚠️ File gayi lekin details save nahi hui (setup/table check karo). File: "+publicUrl; }
+    } else { status.textContent="❌ Upload fail hua ("+xhr.status+"). Setup (SQL) chala hai ya nahi, check karo — ya file dobara try karo."; }
+    btn.disabled=false;
+  };
+  xhr.onerror=()=>{ status.textContent="❌ Network error — internet check karke dobara try karo."; btn.disabled=false; };
+  xhr.send(file);
+});
+loadCerts();
 </script>
 </body>
 </html>
