@@ -333,7 +333,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 <section id="certificates">
   <p class="eyebrow">Certificates</p>
   <h2>Certificates</h2>
-  <div class="grid g2">
+  <div class="grid g2" id="certGrid">
     <article class="card reveal">
       <div class="cert-prev"><img class="proj-img" src="https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-class10.jpg" alt="CBSE Class X certificate — blurred preview" loading="lazy" onerror="this.parentElement.remove()"><span class="cert-lock">🔒 Blurred preview</span></div>
       <span class="tag green">Verified Certificate</span>
@@ -346,8 +346,8 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       </div>
       <p style="color:var(--muted);font-size:.88rem;margin-top:14px">🔒 Upar wala preview jaan-boojh kar blurred hai — asli document private hai, visitors sirf certificate ki details dekh sakte hain, document download nahi kar sakte.</p>
     </article>
+    <div id="dynCerts" style="display:contents"></div>
   </div>
-  <div id="dynCerts" class="grid g2" style="margin-top:18px"></div>
   <p id="dynCertsNote" style="color:var(--muted);margin-top:12px;font-size:.9rem">Loading uploaded certificates…</p>
 
   <div class="card reveal" id="certUploadCard" hidden style="margin-top:26px">
