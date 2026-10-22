@@ -87,6 +87,9 @@ h3{font-size:1.12rem}
 .card:hover{transform:translateY(-4px);border-color:var(--accent)}
 .card p{color:var(--muted);font-size:.95rem}
 .proj-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:12px;border:1px solid var(--line);margin-bottom:14px;background:var(--surface2)}
+.cert-prev{position:relative;margin-bottom:14px}
+.cert-prev .proj-img{margin-bottom:0}
+.cert-lock{position:absolute;left:10px;bottom:10px;background:rgba(4,10,20,.85);color:#fff;padding:5px 12px;border-radius:999px;font-size:.78rem;font-weight:600}
 .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;background:var(--surface2);color:var(--accent);border:1px solid var(--line);text-transform:uppercase}
 .tag.green{color:var(--accent3)}.tag.amber{color:var(--warn)}.tag.red{color:var(--danger)}.tag.violet{color:var(--accent2)}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
@@ -139,7 +142,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 }
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"Mohammad Danish","alternateName":"Danish","jobTitle":"Student Developer","description":"B.Tech Information Technology student at PUSSGRC, Punjab, India.","url":"https://md-danish-codes.github.io/danish-portfolio/","email":"mailto:mohddanish14012005@gmail.com","address":{"@type":"PostalAddress","addressRegion":"Punjab","addressCountry":"IN"},"sameAs":["https://github.com/md-danish-codes","https://www.linkedin.com/in/md-danish-42b031368"]}
+{"@context":"https://schema.org","@type":"Person","name":"Mohammad Danish","alternateName":"Danish","jobTitle":"Student Developer","description":"B.Tech Information Technology student at PUSSGRC, Punjab, India.","url":"https://md-danish-codes.github.io/danish-portfolio/","email":"mailto:mohddanish14012005@gmail.com","address":{"@type":"PostalAddress","addressRegion":"Punjab","addressCountry":"IN"},"sameAs":["https://github.com/md-danish-codes","https://www.linkedin.com/in/md-danish-42b031368","https://www.instagram.com/danishhh_zn/"]}
 </script>
 </head>
 <body>
@@ -332,6 +335,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <h2>Certificates</h2>
   <div class="grid g2">
     <article class="card reveal">
+      <div class="cert-prev"><img class="proj-img" src="https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-class10.jpg" alt="CBSE Class X certificate — blurred preview" loading="lazy" onerror="this.parentElement.remove()"><span class="cert-lock">🔒 Blurred preview</span></div>
       <span class="tag green">Verified Certificate</span>
       <h3 style="margin:12px 0 6px">Secondary School Examination, 2021 — Marks Statement cum Certificate (Class X)</h3>
       <p><strong style="color:var(--text)">Issued by:</strong> Central Board of Secondary Education (CBSE)</p>
@@ -340,7 +344,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <div style="margin-top:16px" id="staticCertView" hidden>
         <a class="btn primary" href="cbse-class10-certificate-2021.pdf" target="_blank" rel="noopener noreferrer" aria-label="View Certificate: CBSE Secondary School Examination 2021 Marks Statement cum Certificate (opens PDF in a new tab)">View Certificate ↗</a>
       </div>
-      <p style="color:var(--muted);font-size:.88rem;margin-top:14px">🔒 Asli document private hai — visitors sirf certificate ki details dekh sakte hain, download nahi kar sakte.</p>
+      <p style="color:var(--muted);font-size:.88rem;margin-top:14px">🔒 Upar wala preview jaan-boojh kar blurred hai — asli document private hai, visitors sirf certificate ki details dekh sakte hain, document download nahi kar sakte.</p>
     </article>
   </div>
   <div id="dynCerts" class="grid g2" style="margin-top:18px"></div>
@@ -612,6 +616,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <a class="card reveal" href="mailto:mohddanish14012005@gmail.com" style="text-decoration:none;color:var(--text)"><h3>✉️ Email</h3><p>mohddanish14012005@gmail.com</p></a>
     <a class="card reveal" href="https://github.com/md-danish-codes" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--text)"><h3>💻 GitHub</h3><p>github.com/md-danish-codes ↗</p></a>
     <a class="card reveal" href="https://www.linkedin.com/in/md-danish-42b031368" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--text)"><h3>💼 LinkedIn</h3><p>Connect on LinkedIn ↗</p></a>
+    <a class="card reveal" href="https://www.instagram.com/danishhh_zn/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--text)"><h3>📸 Instagram</h3><p>@danishhh_zn ↗</p></a>
   </div>
   <div class="card reveal" style="margin-top:18px">
     <h3 style="margin-bottom:8px">🔗 Share my portfolio</h3>
@@ -1031,6 +1036,8 @@ const SB_URL="https://voaxmnpkckdvkxigtpnb.supabase.co";
 const SB_KEY="sb_publishable_6_Gl5ApTlqOSNb7N2b9ifg_K-mw98yO";
 const sbHeaders={apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"};
 const certAdminMode=()=>location.hash==="#admin";
+const CERT_PREVIEWS={"12th":"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-class12.jpg","fea":"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-fea.jpg","iit":"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-iit.jpg","computer":"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-iit.jpg","class10":"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-class10.jpg","10th":"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-class10.jpg"};
+const certPreviewFor=c=>{ const k=((c.file_path||"")+" "+(c.title||"")).toLowerCase(); for(const key in CERT_PREVIEWS){ if(k.includes(key)) return CERT_PREVIEWS[key]; } return "https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/cert-generic.jpg"; };
 async function loadCerts(){
   const note=document.getElementById("dynCertsNote"), grid=document.getElementById("dynCerts");
   try{
@@ -1038,7 +1045,7 @@ async function loadCerts(){
     if(!r.ok) throw new Error("table not ready");
     const rows=await r.json();
     note.textContent=rows.length?"":(certAdminMode()?"No uploaded certificates yet — use the upload form below to add the first one.":"More certificates will appear here soon.");
-    grid.innerHTML=rows.map(c=>`<article class="card"><span class="tag green">Uploaded Certificate</span>
+    grid.innerHTML=rows.map(c=>`<article class="card"><div class="cert-prev"><img class="proj-img" src="${certPreviewFor(c)}" alt="${esc(c.title)} certificate — blurred preview" loading="lazy" onerror="this.parentElement.remove()"><span class="cert-lock">🔒 Blurred preview</span></div><span class="tag green">Uploaded Certificate</span>
       <h3 style="margin:12px 0 6px">${esc(c.title)}</h3>
       <p><strong style="color:var(--text)">Issued by:</strong> ${esc(c.issuer)}</p>
       ${c.cert_date?`<p><strong style="color:var(--text)">Dated:</strong> ${esc(c.cert_date)}</p>`:""}
