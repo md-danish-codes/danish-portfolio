@@ -11,7 +11,15 @@
 <meta property="og:title" content="Danish — Student Developer | B.Tech IT Portfolio">
 <meta property="og:description" content="Building my future, one project at a time. B.Tech IT student, Punjab India. Projects, skills, learning journey and study dashboard.">
 <meta property="og:url" content="https://md-danish-codes.github.io/danish-portfolio/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mohammad Danish — Student Developer, B.Tech IT, Punjab India">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Danish — Student Developer | B.Tech IT Portfolio">
+<meta name="twitter:description" content="Building my future, one project at a time. B.Tech IT student, Punjab India. Projects, skills, learning journey and study dashboard.">
+<meta name="twitter:image" content="https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/og-image.jpg">
 <meta name="theme-color" content="#05070f">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2305070f'/%3E%3Ctext x='32' y='42' font-size='28' text-anchor='middle' fill='%237dd3fc' font-family='sans-serif' font-weight='700'%3ED%3C/text%3E%3C/svg%3E">
 <style>
@@ -78,6 +86,7 @@ h3{font-size:1.12rem}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 4px 18px rgba(0,0,0,.12);transition:transform .25s,border-color .25s}
 .card:hover{transform:translateY(-4px);border-color:var(--accent)}
 .card p{color:var(--muted);font-size:.95rem}
+.proj-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:12px;border:1px solid var(--line);margin-bottom:14px;background:var(--surface2)}
 .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;background:var(--surface2);color:var(--accent);border:1px solid var(--line);text-transform:uppercase}
 .tag.green{color:var(--accent3)}.tag.amber{color:var(--warn)}.tag.red{color:var(--danger)}.tag.violet{color:var(--accent2)}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
@@ -660,15 +669,15 @@ const CONFIG = {
     {name:"Problem-solving", level:"Developing", cat:"programming", note:"Growing through coursework and projects."}
   ],
   projects: [
-    {name:"StudySathi", desc:"All-in-one self-study website: focus timers, timetable, calendars, calculator, maps, a Universe section and a built-in AI study companion.", cat:"Web", tech:["HTML","CSS","JavaScript","Gemini AI"], status:"Completed", live:"https://md-danish-codes.github.io/studysathi/", repo:"https://github.com/md-danish-codes/studysathi"},
-    {name:"Lateral Gang", desc:"Private memories website for a six-friend college group: photo/video albums, member tag folders, public uploads, emoji reactions and an admin trash/restore flow.", cat:"Web", tech:["HTML","CSS","JavaScript","Supabase","Cloudinary"], status:"Completed", live:"https://md-danish-codes.github.io/lateral-gang/", repo:""},
-    {name:"ChatSphere Pro", desc:"Full-stack messaging app: realtime DMs and groups, ticks, typing/presence, reactions, voice notes, disappearing messages and WebRTC call signaling. Built and smoke-tested; server deployment pending.", cat:"Full-stack", tech:["Node.js","Express","Socket.IO","SQLite"], status:"In progress", live:"", repo:""},
-    {name:"JARVIS — Laptop Voice Assistant", desc:"Windows voice assistant for an ASUS TUF laptop: wake commands, app launching, Hindi/English voice responses using speech recognition and edge-tts.", cat:"Desktop", tech:["Python"], status:"Completed", live:"", repo:""},
-    {name:"JARVIS — Android App", desc:"Kotlin voice-assistant app: Hindi speech input/output, alarms by voice, WhatsApp by contact name, torch, battery, weather and news headlines, with a wake-word sleep/wake flow.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
-    {name:"NO EXCUSES — Discipline App", desc:"Android discipline app with tasks, subtasks, recurring reminders, escalating enforcement levels, a focus gate and accountability reports.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
-    {name:"SUkoon & Sankalp", desc:"Motivation app with 100 original Hinglish lines across four categories, a daily sankalp (action), favourites and a guilt-free action history.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
-    {name:"Family Tree Website", desc:"Interactive family tree with zoom/pan, member details, a Hindi relationship finder, upcoming birthdays and search. Demo built with sample data; real family data to be added.", cat:"Web", tech:["HTML","CSS","JavaScript"], status:"In progress", live:"", repo:""},
-    {name:"ThinkRush Logical Games", desc:"A browser-based concept for logical games and brain-training activities, including puzzles and quizzes. The site was reachable when checked on 21 Oct 2026, but full gameplay has not been verified end-to-end.", cat:"Prototype", tech:["Web"], status:"Prototype / Needs verification", live:"", repo:""}
+    {name:"StudySathi", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-studysathi.jpg", desc:"All-in-one self-study website: focus timers, timetable, calendars, calculator, maps, a Universe section and a built-in AI study companion.", cat:"Web", tech:["HTML","CSS","JavaScript","Gemini AI"], status:"Completed", live:"https://md-danish-codes.github.io/studysathi/", repo:"https://github.com/md-danish-codes/studysathi"},
+    {name:"Lateral Gang", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-lateral-gang.jpg", desc:"Private memories website for a six-friend college group: photo/video albums, member tag folders, public uploads, emoji reactions and an admin trash/restore flow.", cat:"Web", tech:["HTML","CSS","JavaScript","Supabase","Cloudinary"], status:"Completed", live:"https://md-danish-codes.github.io/lateral-gang/", repo:""},
+    {name:"ChatSphere Pro", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-chatsphere.jpg", desc:"Full-stack messaging app: realtime DMs and groups, ticks, typing/presence, reactions, voice notes, disappearing messages and WebRTC call signaling. Built and smoke-tested; server deployment pending.", cat:"Full-stack", tech:["Node.js","Express","Socket.IO","SQLite"], status:"In progress", live:"", repo:""},
+    {name:"JARVIS — Laptop Voice Assistant", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-jarvis-laptop.jpg", desc:"Windows voice assistant for an ASUS TUF laptop: wake commands, app launching, Hindi/English voice responses using speech recognition and edge-tts.", cat:"Desktop", tech:["Python"], status:"Completed", live:"", repo:""},
+    {name:"JARVIS — Android App", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-jarvis-android.jpg", desc:"Kotlin voice-assistant app: Hindi speech input/output, alarms by voice, WhatsApp by contact name, torch, battery, weather and news headlines, with a wake-word sleep/wake flow.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
+    {name:"NO EXCUSES — Discipline App", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-no-excuses.jpg", desc:"Android discipline app with tasks, subtasks, recurring reminders, escalating enforcement levels, a focus gate and accountability reports.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
+    {name:"SUkoon & Sankalp", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-sukoon.jpg", desc:"Motivation app with 100 original Hinglish lines across four categories, a daily sankalp (action), favourites and a guilt-free action history.", cat:"Android", tech:["Kotlin","Android"], status:"Completed", live:"", repo:""},
+    {name:"Family Tree Website", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-family-tree.jpg", desc:"Interactive family tree with zoom/pan, member details, a Hindi relationship finder, upcoming birthdays and search. Demo built with sample data; real family data to be added.", cat:"Web", tech:["HTML","CSS","JavaScript"], status:"In progress", live:"", repo:""},
+    {name:"ThinkRush Logical Games", img:"https://voaxmnpkckdvkxigtpnb.supabase.co/storage/v1/object/public/portfolio-files/site-images/project-thinkrush.jpg", desc:"A browser-based concept for logical games and brain-training activities, including puzzles and quizzes. The site was reachable when checked on 21 Oct 2026, but full gameplay has not been verified end-to-end.", cat:"Prototype", tech:["Web"], status:"Prototype / Needs verification", live:"", repo:""}
   ],
   future: [
     {name:"Smart Study Planner", cat:"Educational application", note:"Turns a syllabus and exam date into a realistic daily plan."},
@@ -746,7 +755,7 @@ const statusTag=s=> s==="Completed"?"green":s==="In progress"?"amber":s.includes
 const projectGrid=document.getElementById("projectGrid");
 function renderProjects(f="all"){
   const list=CONFIG.projects.filter(p=>f==="all"||p.cat===f);
-  projectGrid.innerHTML=list.map(p=>`<article class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${p.name}</h3><span class="tag ${statusTag(p.status)}">${p.status}</span></div>
+  projectGrid.innerHTML=list.map(p=>`<article class="card">${p.img?`<img class="proj-img" src="${p.img}" alt="${p.name} project image" loading="lazy" onerror="this.remove()">`:""}<div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${p.name}</h3><span class="tag ${statusTag(p.status)}">${p.status}</span></div>
   <p style="margin:10px 0">${p.desc}</p>
   <div class="chips" style="margin:0 0 14px">${p.tech.map(t=>`<span class="chip">${t}</span>`).join("")}<span class="chip">${p.cat}</span></div>
   <div style="display:flex;gap:10px;flex-wrap:wrap">${p.live?`<a class="btn primary small" href="${p.live}" target="_blank" rel="noopener noreferrer">Live Site ↗</a>`:""}${p.repo?`<a class="btn small" href="${p.repo}" target="_blank" rel="noopener noreferrer">Repository ↗</a>`:""}${!p.live&&!p.repo?`<span style="color:var(--muted);font-size:.9rem">Delivered as a downloadable build — no public link yet.</span>`:""}</div></article>`).join("")||`<div class="empty">No projects in this category yet.</div>`;
@@ -1147,7 +1156,7 @@ async function saveData(){
   if(!r.ok) throw new Error("save failed "+r.status);
 }
 function projectCardHTML(p,adminIdx){
-  return `<article class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${esc(p.name)}</h3><span class="tag ${statusTag(p.status)}">${esc(p.status)}</span></div>
+  return `<article class="card">${p.img?`<img class="proj-img" src="${esc(p.img)}" alt="${esc(p.name)} project image" loading="lazy" onerror="this.remove()">`:""}<div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>${esc(p.name)}</h3><span class="tag ${statusTag(p.status)}">${esc(p.status)}</span></div>
   <p style="margin:10px 0">${esc(p.desc)}</p>
   <div class="chips" style="margin:0 0 14px">${(p.tech||[]).map(t=>`<span class="chip">${esc(t)}</span>`).join("")}<span class="chip">${esc(p.cat)}</span></div>
   <div style="display:flex;gap:10px;flex-wrap:wrap">${p.live?`<a class="btn primary small" href="${esc(p.live)}" target="_blank" rel="noopener noreferrer">Live Site ↗</a>`:""}${p.repo?`<a class="btn small" href="${esc(p.repo)}" target="_blank" rel="noopener noreferrer">Repository ↗</a>`:""}
